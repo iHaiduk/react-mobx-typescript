@@ -1,0 +1,51 @@
+{
+  "compilerOptions": {
+    "alwaysStrict": true,
+    "outDir": "./dist/",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "es2015",
+    "jsx": "react",
+    "removeComments": false,
+    "allowUnusedLabels": false,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "typeRoots": ["./node_modules/@types"],
+    "baseUrl": "./",
+    "paths": {
+      "_server/*":          [ "./server/*" ],
+      "_serverConfig":      [ "./server/config.ts" ],
+      "_serverRoute/*":     [ "./server/router/*" ],
+      "_utils/*":           [ "./utils/*" ]
+    }
+  },
+  "awesomeTypescriptLoaderOptions": {
+    "forkChecker": true,
+    "useWebpackText": true,
+    "useBabel": true,
+    "useCache": true,
+    "cacheDirectory": ".gulp/ts",
+    "useTranspileModule": true,
+    "silent": true,
+    "babelOptions": {
+      "presets": ["node8", "react-optimize", "stage-0"],
+      "plugins": ["transform-react-router-optimize", "transform-react-constant-elements", "transform-react-inline-elements", "transform-react-remove-prop-types"]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "static"
+  ],
+  "include": [
+    "./server/**/*",
+    "./store/**/*",
+    "./utils/**/*"
+  ],
+  "compileOnSave": false,
+  "buildOnSave": false
+}

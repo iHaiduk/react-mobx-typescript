@@ -1,0 +1,72 @@
+{
+  "name": "mobx-react-typescript-boilerplate",
+  "version": "1.0.0",
+  "description": "Boilerplate for MobX + React project with Typescript, ES6 compilation and hot code reloading",
+  "scripts": {
+    "start": "node server.js",
+    "dev-server": "cp ./webpack/tsconfigFrontend.json tsconfig.json && ./node_modules/.bin/webpack-dev-server --colors --inline --watch --config ./webpack/webpack.config.dev.js",
+    "backend-watch": "cp ./webpack/tsconfigBackend.json tsconfig.json && ./node_modules/.bin/webpack --config ./webpack/webpack.config.backend.dev.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mobxjs/mobx-react-typescript-boilerplate.git"
+  },
+  "keywords": [
+    "react",
+    "reactjs",
+    "boilerplate",
+    "mobx",
+    "starter-kit"
+  ],
+  "author": "Michel Weststrate <mweststrate@gmail.com> (http://github.com/mweststrate)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mobxjs/mobx/issues"
+  },
+  "homepage": "http://mobxjs.github.com/mobx",
+  "devDependencies": {
+    "@types/bytes": "^2.5.1",
+    "@types/cookie": "^0.3.1",
+    "@types/koa": "^2.0.39",
+    "@types/koa-router": "^7.0.23",
+    "@types/pino": "^4.7.0",
+    "@types/react": "^16.0.10",
+    "@types/react-dom": "^16.0.1",
+    "@types/react-helmet": "^5.0.3",
+    "@types/react-hot-loader": "^3.0.4",
+    "@types/webpack-env": "^1.13.1",
+    "awesome-typescript-loader": "^3.2.3",
+    "babel-core": "^6.26.0",
+    "babel-plugin-transform-react-constant-elements": "^6.23.0",
+    "babel-plugin-transform-react-inline-elements": "^6.22.0",
+    "babel-plugin-transform-react-remove-prop-types": "^0.4.9",
+    "babel-plugin-transform-react-router-optimize": "^1.0.2",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-node8": "^1.2.0",
+    "babel-preset-react-optimize": "^1.0.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "es6-promise": "^4.1.1",
+    "mobx-react-devtools": "^4.2.15",
+    "react-hot-loader": "3.0.0-beta.7",
+    "source-map-loader": "^0.2.2",
+    "typescript": "^2.5.3",
+    "webpack": "^3.6.0",
+    "webpack-dev-server": "^2.9.1",
+    "webpack-node-externals": "^1.6.0"
+  },
+  "dependencies": {
+    "bytes": "^3.0.0",
+    "cookie": "^0.3.1",
+    "humanize-number": "^0.0.2",
+    "koa": "^2.3.0",
+    "koa-router": "^7.2.1",
+    "mobx": "^3.3.1",
+    "mobx-react": "^4.3.3",
+    "moize": "^4.0.0",
+    "passthrough-counter": "^1.0.0",
+    "pino": "^4.7.2",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-helmet": "^5.2.0"
+  }
+}
