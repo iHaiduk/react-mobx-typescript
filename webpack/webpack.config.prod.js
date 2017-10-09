@@ -1,13 +1,13 @@
 const {join, resolve} = require('path');
 const webpack = require('webpack');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
 const vendorScripts = require("./vendor.scripts").default;
 const aliases = require("./webpack.frontend.aliases").default;
 
 const entry = process.env.TEMP_NAME ? {bundle: process.env.TEMP_NAME} : {
     bundle: [
-        'react-hot-loader/patch',
-        'webpack-dev-server/client?http://localhost:3000',
-        'webpack/hot/only-dev-server',
         join(__dirname, '..', 'client', 'index.tsx')
     ],
     vendor: vendorScripts,
@@ -21,14 +21,14 @@ function isVendor({ resource }) {
 }
 
 module.exports = {
-    devtool: 'cheap-module-eval-source-map',
+    devtool: false,
     entry: entry,
     target: 'web',
     output: {
         path: resolve(__dirname, process.env.TEMP_DIR || '../dist/public'),
-        filename: '[name].js',
+        filename: '[name].[chunkhash:4].js',
         publicPath: '/',
-        chunkFilename: '[name]-[id].js',
+        chunkFilename: '[id].[chunkhash:4].js',
         libraryTarget: 'umd'
     },
     resolve: {
@@ -47,15 +47,8 @@ module.exports = {
     module: {
         loaders: [
             {
-                enforce: 'pre',
-                test: /\.ts(x?)$/,
-                use: "source-map-loader",
-                exclude: /node_modules|styles/,
-            },
-            {
                 test: /\.ts(x?)$/,
                 use: [
-                    {loader: 'react-hot-loader/webpack'},
                     {loader: 'awesome-typescript-loader'}
                 ],
                 include: [
@@ -69,41 +62,57 @@ module.exports = {
     },
     plugins: [
         new webpack.NoEmitOnErrorsPlugin(),
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NamedModulesPlugin(),
-        new webpack.DefinePlugin({
-            'process.env': {
-                BROWSER: JSON.stringify(true),
-                NODE_ENV: JSON.stringify('development')
-            }
+        new CleanWebpackPlugin(['./dist/public/'], {
+            root: resolve(__dirname, '..'),
+            verbose: true,
         }),
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vendor',
             minChunks: isVendor,
-            filename: 'vendor.js'
+            filename: '[name].[chunkhash:4].js'
+        }),
+        new webpack.DefinePlugin({
+            'process.env': {
+                BROWSER: JSON.stringify(true),
+                NODE_ENV: JSON.stringify('production')
+            }
+        }),
+        new UglifyJSPlugin({
+            parallel: {
+                cache: true,
+                workers: true
+            },
+            uglifyOptions: {
+                ecma: 8,
+                warnings: false,
+                mangle: {
+                    safari10: true,
+                },
+                output: {
+                    beautify: false,
+                    keep_quoted_props: true,
+                    shebang: false
+                },
+                compress: {
+                    properties: true,
+                    dead_code: true,
+                    drop_debugger: true,
+                    unsafe_math: true,
+                    conditionals: true,
+                    loops: true,
+                    if_return: true,
+                    inline: true,
+                    collapse_vars: true,
+                    reduce_vars: true,
+                    drop_console: true,
+                    passes: 5,
+                    keep_infinity: true,
+                }
+            },
+        }),
+        new ManifestPlugin({
+            fileName: process.env.BACKEND === 'false' ? "manifest.json" : "../server/manifest.json"
         })
-    ],
-    devServer: {
-        hot: true,
-        proxy: process.env.BACKEND === 'false' ? undefined : {
-            '*': 'http://0.0.0.0:' + (process.env.PORT || 1337),
-            ws: true
-        },
-
-        contentBase: process.env.BACKEND === 'false' ? __dirname : resolve(__dirname, 'dist', 'public'),
-        publicPath: '/',
-        host: "0.0.0.0",
-
-        port: 3000,
-        historyApiFallback: true,
-        stats: {
-            colors: true,
-            chunks: false,
-        },
-        compress: true,
-        disableHostCheck: true,
-        headers: {'Access-Control-Allow-Origin': '*'},
-        open: false
-    },
+    ]
 };

@@ -5,7 +5,7 @@ pretty.pipe(process.stdout);
 
 export const ASSETS: any = process.env.ASSETS || {};
 export const NODE_ENV: string = process.env.NODE_ENV || "development";
-export const PORT: string | number = process.env.PORT;
+export const PORT: string | number = process.env.PORT || "1337";
 
 interface IConfig {
     hostname: string;
@@ -77,7 +77,7 @@ const config: IConfig = {
     hostname: "0.0.0.0",
     logLevel: "debug",
     logSafe: true,
-    port: PORT && parseInt(PORT, 10) || 1337,
+    port: PORT && parseInt(PORT, 10),
     pretty,
     redis: redisConfig,
 };

@@ -20,7 +20,8 @@
     "typeRoots": ["./node_modules/@types"],
     "baseUrl": "./",
     "paths": {
-      "_stores":            [ "./store/index.ts" ],
+      "_store/*":           [ "./store/*" ],
+      "_stores":            [ "./store/index" ],
       "_utils/*":           [ "./utils/*" ]
     }
   },
@@ -33,16 +34,19 @@
     "silent": true,
     "useBabel": true,
     "babelOptions": {
-      "presets": ["react-optimize", "stage-0"],
-      "plugins": ["transform-react-router-optimize", "transform-react-constant-elements", "transform-react-inline-elements", "transform-react-remove-prop-types"]
+      "presets": ["react-optimize", "stage-0", ["env", { "targets": { "browsers": ["last 3 versions", "safari >= 7", "ie >= 10"] } }]],
+      "plugins": ["transform-async-to-generator", "transform-decorators-legacy", "transform-class-properties", "transform-react-remove-prop-types", "transform-react-router-optimize", "transform-react-constant-elements", "transform-react-inline-elements", "closure-elimination", "loop-optimizer", "implicit-return", "meaningful-logs"/* Only for development */]
     }
   },
   "exclude": [
+    ".gulp",
     "node_modules",
-    "static"
+    "server",
+    "dist"
   ],
 
   "include": [
+    "./client/**/*",
     "./src/**/*",
     "./store/**/*",
     "./utils/**/*"

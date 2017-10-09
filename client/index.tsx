@@ -19,8 +19,5 @@ const renderApplication = (Component: any) => {
 renderApplication(App);
 
 if (module.hot) {
-    module.hot.accept("../src", () => {
-        const NewApp = require("../src").default;
-        renderApplication(NewApp);
-    });
+    module.hot.accept("../src", () => renderApplication(App));
 }
