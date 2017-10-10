@@ -18,6 +18,10 @@
     "typeRoots": ["./node_modules/@types"],
     "baseUrl": "./",
     "paths": {
+      "_backendRouter":     [ "./route/backendRoute.tsx" ],
+      "_block/*":           [ "./view/blocks/*" ],
+      "_component/*":       [ "./view/components/*" ],
+      "_page/*":            [ "./view/pages/*" ],
       "_server/*":          [ "./server/*" ],
       "_store/*":           [ "./store/*" ],
       "_stores":            [ "./store/index" ],

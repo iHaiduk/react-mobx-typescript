@@ -1,29 +1,10 @@
 import * as Koa from "koa";
 import * as Router from "koa-router";
-
-import {render} from "./document";
+import main from "./main";
 
 const initRoute = (app: Koa, route: Router) => {
 
-    route.get("/", (ctx: Koa.Context) => {
-        const location: string = ctx.request.url;
-
-        const data = {
-            routing: {location},
-        };
-
-        ctx.body = render(ctx, location, data);
-    });
-
-    route.get("/test", (ctx: Koa.Context) => {
-        const location: string = ctx.request.url;
-
-        const data = {
-            routing: {location},
-        };
-
-        ctx.body = render(ctx, location, data);
-    });
+    main(route);
 
     app
         .use(route.routes())

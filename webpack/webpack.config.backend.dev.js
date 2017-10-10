@@ -60,6 +60,7 @@ module.exports = {
                 ],
                 exclude: [/node_modules/],
                 include: [
+                    resolve(__dirname, '..', 'route'),
                     resolve(__dirname, '..', 'store'),
                     resolve(__dirname, '..', 'server'),
                     resolve(__dirname, '..', 'view'),

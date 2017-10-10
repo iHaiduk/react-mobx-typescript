@@ -1,15 +1,16 @@
 import * as React from "react";
 import { observer, inject } from 'mobx-react';
-import {CounterClass} from "_store/counter";
-import {ReactNode} from "react";
+import {IHomePage} from "_page/Home/interface";
 
-@inject('counter')
+@inject('counter', 'routing')
 @observer
-export class TimerView extends React.Component<{counter?: CounterClass, children?: ReactNode}, {}> {
+export class HomePage extends React.Component<IHomePage, {}> {
 
-    constructor(props){
+    constructor(props: IHomePage){
         super(props);
-        this.onClick = this.onClick.bind(this);
+        if(process.env.BROWSER) {
+            this.onClick = this.onClick.bind(this);
+        }
     }
 
     public render() {
@@ -17,7 +18,7 @@ export class TimerView extends React.Component<{counter?: CounterClass, children
         return (
             <div>
                 <button onClick={this.onClick}>
-                    Seconds passed: {counter.count}
+                    Rename test: {counter.count}
                 </button>
             </div>
         );
@@ -29,4 +30,4 @@ export class TimerView extends React.Component<{counter?: CounterClass, children
      }
 }
 
-export default TimerView;
+export default HomePage;

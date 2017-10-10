@@ -53,6 +53,7 @@ module.exports = {
                 ],
                 include: [
                     resolve(__dirname, '..', 'client'),
+                    resolve(__dirname, '..', 'route'),
                     resolve(__dirname, '..', 'store'),
                     resolve(__dirname, '..', 'view'),
                     resolve(__dirname, '..', 'utils')

@@ -20,6 +20,10 @@
     "typeRoots": ["./node_modules/@types"],
     "baseUrl": "./",
     "paths": {
+      "_block/*":           [ "./view/blocks/*" ],
+      "_component/*":       [ "./view/components/*" ],
+      "_clientRouter":      [ "./route/index.tsx" ],
+      "_page/*":            [ "./view/pages/*" ],
       "_store/*":           [ "./store/*" ],
       "_stores":            [ "./store/index" ],
       "_view/*":            [ "./view/*" ],

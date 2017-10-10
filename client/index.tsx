@@ -2,21 +2,16 @@ import * as stores from "_stores";
 import {Provider} from "mobx-react";
 import * as React from "react";
 import {hydrate} from "react-dom";
-
-import App from "_view/index";
+import App from "_clientRouter";
 
 if (process.env.NODE_ENV != "production") {
-    const DevTools = require("mobx-react-devtools").default;
     const {AppContainer} = require("react-hot-loader");
 
     const renderApplication = (Component: any) => {
         hydrate(
             <AppContainer>
                 <Provider {...stores}>
-                    <div>
-                        <Component/>
-                        <DevTools/>
-                    </div>
+                    <Component/>
                 </Provider>
             </AppContainer>,
             document.getElementById("application"),
@@ -25,15 +20,15 @@ if (process.env.NODE_ENV != "production") {
     renderApplication(App);
 
     if (module.hot) {
-        module.hot.accept("_view/index", () => {
-            const NewApp = require("_view/index").default;
+        module.hot.accept("_clientRouter", () => {
+            const NewApp = require("_clientRouter").default;
             renderApplication(NewApp);
         });
     }
 } else {
     hydrate(
         <Provider {...stores}>
-            <App />
+            <App/>
         </Provider>,
         document.getElementById("application"),
     );
