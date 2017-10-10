@@ -1,5 +1,5 @@
-import * as pino from "pino";
 import * as Koa from "koa";
+import * as pino from "pino";
 
 const pretty = pino.pretty();
 pretty.pipe(process.stdout);
@@ -51,7 +51,7 @@ interface IKoaBodyFormidableOptions {
     /**
      * {Integer} The expected number of bytes in this form, default null
      */
-    bytesExpected?: number
+    bytesExpected?: number;
 
     /**
      * {Integer} Limits the number of fields that the querystring parser will decode, default 1000
@@ -107,17 +107,17 @@ interface IKoaBodyOptions {
     /**
      * {String|Integer} The byte (if integer) limit of the JSON body, default 1mb
      */
-    jsonLimit?: string|number;
+    jsonLimit?: string | number;
 
     /**
      * {String|Integer} The byte (if integer) limit of the form body, default 56kb
      */
-    formLimit?: string|number;
+    formLimit?: string | number;
 
     /**
      * {String|Integer} The byte (if integer) limit of the text body, default 56kb
      */
-    textLimit?: string|number;
+    textLimit?: string | number;
 
     /**
      * {String} Sets encoding for incoming form fields, default utf-8
@@ -205,10 +205,10 @@ const config: IConfig = {
 export const logConfig = {level: config.logLevel, safe: true};
 
 export const bodyParseConfig: IKoaBodyFormidableOptions & IKoaBodyOptions = {
-    formLimit: '200kb',
-    textLimit: '200kb',
-    jsonLimit: '4mb',
-    multipart: true
+    formLimit: "200kb",
+    textLimit: "200kb",
+    jsonLimit: "4mb",
+    multipart: true,
 };
 
 export default config;

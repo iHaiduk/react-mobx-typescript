@@ -11,7 +11,10 @@
     "--Production--": "echo \"Production\"",
     "frontend": "cp ./webpack/tsconfigFrontend.json tsconfig.json && ./node_modules/.bin/webpack --colors --config ./webpack/webpack.config.prod.js",
     "backend": "cp ./webpack/tsconfigBackend.json tsconfig.json && ./node_modules/.bin/webpack --colors --config ./webpack/webpack.config.backend.prod.js",
-    "build": "yarn run frontend && yarn run backend"
+    "build": "yarn run frontend && yarn run backend",
+    "-----Lints-----": "",
+    "lint-typescript": "./node_modules/.bin/tslint -c tslint.json './client/**/*.{ts,tsx}' && ./node_modules/.bin/tslint -c tslint.json './route/**/*.{ts,tsx}' && ./node_modules/.bin/tslint -c tslint.json './server/**/*.{ts,tsx}' && ./node_modules/.bin/tslint -c tslint.json './store/**/*.{ts,tsx}' && ./node_modules/.bin/tslint -c tslint.json './utils/**/*.{ts,tsx}' && ./node_modules/.bin/tslint -c tslint.json './view/**/*.{ts,tsx}'",
+    "lint-typescript-fix": "./node_modules/.bin/tslint -c tslint.json './client/**/*.{ts,tsx}' --fix&& ./node_modules/.bin/tslint -c tslint.json './route/**/*.{ts,tsx}' --fix&& ./node_modules/.bin/tslint -c tslint.json './server/**/*.{ts,tsx}' --fix&& ./node_modules/.bin/tslint -c tslint.json './store/**/*.{ts,tsx}' --fix&& ./node_modules/.bin/tslint -c tslint.json './utils/**/*.{ts,tsx}' --fix&& ./node_modules/.bin/tslint -c tslint.json './view/**/*.{ts,tsx}' --fix"
   },
   "repository": {
     "type": "git",
@@ -67,6 +70,8 @@
     "mobx-react-devtools": "^4.2.15",
     "react-hot-loader": "3.0.0-beta.7",
     "source-map-loader": "^0.2.2",
+    "tslint": "^5.7.0",
+    "tslint-react": "^3.2.0",
     "typescript": "^2.5.3",
     "uglifyjs-webpack-plugin": "1.0.0-beta.2",
     "webpack": "^3.6.0",

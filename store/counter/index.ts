@@ -6,10 +6,10 @@ interface ICounter {
 
 export class CounterClass implements ICounter {
 
-    @observable count = 0;
+    @observable public count = 0;
 
     constructor(props?: ICounter) {
-        if(typeof props !== "undefined") {
+        if (typeof props !== "undefined") {
             const {count} = props;
             this.count = count;
         }

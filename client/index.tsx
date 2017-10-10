@@ -1,10 +1,10 @@
+import App from "_clientRouter";
 import * as stores from "_stores";
 import {Provider} from "mobx-react";
 import * as React from "react";
 import {hydrate} from "react-dom";
-import App from "_clientRouter";
 
-if (process.env.NODE_ENV != "production") {
+if (process.env.NODE_ENV !== "production") {
     const {AppContainer} = require("react-hot-loader");
 
     const renderApplication = (Component: any) => {

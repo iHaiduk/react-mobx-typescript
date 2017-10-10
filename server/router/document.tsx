@@ -1,13 +1,12 @@
-import {ASSETS} from "_serverConfig";
 import BackendRoutes from "_backendRouter";
+import {ASSETS} from "_serverConfig";
+import * as stores from "_stores";
 import {Context} from "koa";
+import {Provider} from "mobx-react";
 import * as React from "react";
-import {renderToStaticNodeStream, renderToStaticMarkup} from "react-dom/server";
+import {renderToStaticMarkup, renderToStaticNodeStream} from "react-dom/server";
 import {Helmet} from "react-helmet";
 import {StaticRouter} from "react-router";
-import {ReactElement} from "react";
-import * as stores from "_stores";
-import {Provider} from "mobx-react";
 import * as serialize from "serialize-javascript";
 
 const moize = require("moize");
@@ -27,9 +26,13 @@ const HTMLStart = (): string => {
     );
 };
 
-const ChildrenRender = (props: any): ReactElement<any> => {
-    return (<Provider {...stores}><StaticRouter context={props}
-                                                location={props.routing.location}><BackendRoutes/></StaticRouter></Provider>);
+const ChildrenRender = (props: any): React.ReactElement<any> => {
+    return (
+        <Provider {...stores}>
+            <StaticRouter context={props} location={props.routing.location}>
+                <BackendRoutes/>
+            </StaticRouter>
+        </Provider>);
 };
 
 export const render: (ctx: Context, location: string, data: any) => void = (ctx: Context, location: string, data: any = {}) => {
@@ -63,6 +66,6 @@ export const render: (ctx: Context, location: string, data: any) => void = (ctx:
     return stream;
 };
 
-export const memoStringify = moize((data: any, _serialize?: boolean): string => {
-    return _serialize && serialize(data) || JSON.stringify(data);
+export const memoStringify = moize((data: any, isSerialize?: boolean): string => {
+    return isSerialize && serialize(data) || JSON.stringify(data);
 }, {maxArgs: 2, maxAge: 1000 * 3600 * 24});

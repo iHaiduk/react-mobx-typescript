@@ -3,5 +3,5 @@ import routing from "./routing";
 
 export {
     counter,
-    routing
+    routing,
 };

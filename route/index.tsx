@@ -1,11 +1,11 @@
-import * as React from "react";
-import {Router} from 'react-router';
 import {history} from "_store/routing";
+import * as React from "react";
+import {Router} from "react-router";
 import ClientRoute from "./clientRoute";
 
 let AppComponent;
 
-if(process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === "production") {
     AppComponent = (props: Router) => (<Router history={history} {...props}><ClientRoute /></Router>);
 } else {
     const DevTools = require("mobx-react-devtools").default;

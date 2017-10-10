@@ -1,9 +1,9 @@
-import createBrowserHistory from 'history/createBrowserHistory';
-import createMemoryHistory from 'history/createMemoryHistory';
-import { RouterStore, syncHistoryWithStore } from 'mobx-react-router';
+import createBrowserHistory from "history/createBrowserHistory";
+import createMemoryHistory from "history/createMemoryHistory";
+import { RouterStore, syncHistoryWithStore } from "mobx-react-router";
 
 let browserHistory;
-if(process.env.BROWSER) {
+if (process.env.BROWSER) {
     browserHistory = createBrowserHistory();
 } else {
     browserHistory = createMemoryHistory();
