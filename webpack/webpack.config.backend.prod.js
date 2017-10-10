@@ -66,6 +66,7 @@ module.exports = {
                 include: [
                     resolve(__dirname, '..', 'store'),
                     resolve(__dirname, '..', 'server'),
+                    resolve(__dirname, '..', 'view'),
                     resolve(__dirname, '..', 'utils'),
                 ],
             }

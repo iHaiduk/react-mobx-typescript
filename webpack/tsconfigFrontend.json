@@ -22,6 +22,7 @@
     "paths": {
       "_store/*":           [ "./store/*" ],
       "_stores":            [ "./store/index" ],
+      "_view/*":            [ "./view/*" ],
       "_utils/*":           [ "./utils/*" ]
     }
   },

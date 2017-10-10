@@ -1,11 +1,11 @@
-import DevTools from "mobx-react-devtools";
 import * as React from "react";
 import { observer, inject } from 'mobx-react';
 import {CounterClass} from "_store/counter";
+import {ReactNode} from "react";
 
 @inject('counter')
 @observer
-export class TimerView extends React.Component<{counter: CounterClass}, {}> {
+export class TimerView extends React.Component<{counter?: CounterClass, children?: ReactNode}, {}> {
 
     constructor(props){
         super(props);
@@ -19,7 +19,6 @@ export class TimerView extends React.Component<{counter: CounterClass}, {}> {
                 <button onClick={this.onClick}>
                     Seconds passed: {counter.count}
                 </button>
-                <DevTools />
             </div>
         );
      }

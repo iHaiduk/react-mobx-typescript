@@ -48,6 +48,12 @@ module.exports = {
         loaders: [
             {
                 enforce: 'pre',
+                test: /\.js$/,
+                use: "source-map-loader",
+                exclude: /node_modules|styles/,
+            },
+            {
+                enforce: 'pre',
                 test: /\.ts(x?)$/,
                 use: "source-map-loader",
                 exclude: /node_modules|styles/,
@@ -61,7 +67,7 @@ module.exports = {
                 include: [
                     resolve(__dirname, '..', 'client'),
                     resolve(__dirname, '..', 'store'),
-                    resolve(__dirname, '..', 'src'),
+                    resolve(__dirname, '..', 'view'),
                     resolve(__dirname, '..', 'utils')
                 ]
             }

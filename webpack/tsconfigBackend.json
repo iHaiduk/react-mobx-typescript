@@ -23,6 +23,7 @@
       "_stores":            [ "./store/index" ],
       "_serverConfig":      [ "./server/config" ],
       "_serverRoute/*":     [ "./server/router/*" ],
+      "_view/*":            [ "./view/router/*" ],
       "_utils/*":           [ "./utils/*" ]
     }
   },
