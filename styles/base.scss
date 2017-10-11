@@ -1,0 +1,19 @@
+// Reset and dependencies
+@import 'variables/colors';
+@import 'variables/fonts';
+@import 'utils/animation';
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  background: grey;
+  color: white;
+  overflow-x: hidden;
+}
+
+svg {
+  display: none;
+  pointer-events: none;
+}

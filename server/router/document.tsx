@@ -57,7 +57,7 @@ export const render: (ctx: Context, location: string, data: any) => void = (ctx:
         ctx.res.write(`<script type="text/javascript">window.__initState__=${memoStringify(props, true)};window.__initRoute__=${memoStringify(routing)}</script>`);
         ctx.res.write(`<script type="text/javascript">window.ASSETS=${JSON.stringify(ASSETS)}</script>`);
         ctx.res.write(`<script src="${ASSETS["vendor.js"] || "vendor.js"}" type="text/javascript"></script>`);
-        // ctx.res.write(`<script src="${ASSETS["style.js"] || "style.js"}" type="text/javascript"></script>`);
+        ctx.res.write(`<script src="${ASSETS["style.js"] || "style.js"}" type="text/javascript"></script>`);
         ctx.res.write(`<script src="${ASSETS["bundle.js"] || "bundle.js"}" type="text/javascript"></script>`);
 
         ctx.res.write("</body></html>");

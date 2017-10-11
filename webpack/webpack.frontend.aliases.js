@@ -8,6 +8,8 @@ const alias = {
     "_page":            resolve(__dirname, '..', 'view', 'pages'),
     "_store":           resolve(__dirname, '..', 'store'),
     "_stores":          resolve(__dirname, '..', 'store', 'index.ts'),
+    "_stylesLoad":      resolve(__dirname, '..', 'styles'),
+    "_style":           resolve(__dirname, '..', 'styles/index.ts'),
     "_view":            resolve(__dirname, '..', 'view'),
     "_utils":           resolve(__dirname, '..', 'utils'),
 };

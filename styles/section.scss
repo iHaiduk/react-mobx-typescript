@@ -1,0 +1,9 @@
+@import 'utils/bem';
+@import 'variables/index';
+
+
+@include block('section') {
+  display: block;
+  min-height: 50px;
+  width: 100%;
+}

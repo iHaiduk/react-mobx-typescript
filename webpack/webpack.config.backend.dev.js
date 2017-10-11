@@ -1,5 +1,8 @@
 const {join, resolve} = require('path');
 const webpack = require('webpack');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const WebpackErrorNotificationPlugin = require('webpack-error-notification');
+const vendorStyles = require("./vendor.style").default;
 const nodeExternals = require('webpack-node-externals');
 const aliases = require("./webpack.backend.aliases").default;
 
@@ -7,7 +10,13 @@ const entry = {
     index: [
         "babel-polyfill",
         join(__dirname, '../server', 'index'),
-    ]
+    ],
+
+    // Styles
+    base: [resolve(__dirname, '..', 'styles', 'base.scss'), ...vendorStyles],
+    block: resolve(__dirname, '..', 'styles', 'block.scss'),
+    components: resolve(__dirname, '..', 'styles', 'components.scss'),
+    section: resolve(__dirname, '..', 'styles', 'section.scss'),
 };
 
 module.exports = {
@@ -43,6 +52,74 @@ module.exports = {
         rules: [
             {
                 enforce: 'pre',
+                test: /\.css$/,
+                use: "source-map-loader",
+            },
+            {
+                test: /\.css$/,
+                use: ExtractTextPlugin.extract({
+                    fallback: "style-loader",
+                    use: [
+                        {
+                            loader: "css-loader", options: {
+                                sourceMap: true,
+                                localIdentName: '[local]'
+                            }
+                        }
+                    ]
+                })
+            },
+            {
+                enforce: 'pre',
+                test: /\.s[ac]ss$/,
+                use: "source-map-loader",
+                exclude: /node_modules/,
+            },
+            {
+                test: /\.s[ac]ss$/,
+                exclude: /node_modules/,
+                use:
+                    ExtractTextPlugin.extract({
+                        fallback: "style-loader",
+                        use: [
+                            {
+                                loader: "css-loader", options: {
+                                    sourceMap: true,
+                                    modules: true,
+                                    importLoaders: 3,
+                                    localIdentName: '[local]'
+                                }
+                            },
+                            'group-css-media-queries-loader',
+                            {
+                                loader: 'postcss-loader',
+                                options: {
+                                    sourceMap: true,
+                                    plugins: (loader) => [
+                                        require('autoprefixer')({
+                                            browsers: [
+                                                'last 2 versions',
+                                                '> 1%',
+                                                'android 4',
+                                                'iOS 9',
+                                            ],
+                                            cascade: false
+                                        })
+                                    ]
+                                }
+                            },
+                            {
+                                loader: "sass-loader", options: {
+                                    sourceMap: true,
+                                    modules: true,
+                                }
+                            }
+                        ]
+                    })
+
+            },
+            {
+                enforce: 'pre',
                 test: /\.js$/,
                 loader: 'source-map-loader',
                 exclude: '/node_modules/'
@@ -63,6 +140,7 @@ module.exports = {
                     resolve(__dirname, '..', 'route'),
                     resolve(__dirname, '..', 'store'),
                     resolve(__dirname, '..', 'server'),
+                    resolve(__dirname, '..', 'styles'),
                     resolve(__dirname, '..', 'view'),
                     resolve(__dirname, '..', 'utils'),
                 ],
@@ -77,6 +155,8 @@ module.exports = {
                 ASSETS: JSON.stringify({})
             }
         }),
+        new WebpackErrorNotificationPlugin(),
+        new ExtractTextPlugin("../public/style/[name].css"),
     ],
     node: {
         console: false,

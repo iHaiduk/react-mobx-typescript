@@ -1,5 +1,8 @@
 const {join, resolve} = require('path');
 const webpack = require('webpack');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const WebpackErrorNotificationPlugin = require('webpack-error-notification');
+const vendorStyles = require("./vendor.style").default;
 const vendorScripts = require("./vendor.scripts").default;
 const aliases = require("./webpack.frontend.aliases").default;
 
@@ -11,7 +14,13 @@ const entry = process.env.TEMP_NAME ? {bundle: process.env.TEMP_NAME} : {
         join(__dirname, '..', 'client', 'index.tsx')
     ],
     vendor: vendorScripts,
-    // style: './styles/index.ts',
+    style: join(__dirname, '..', 'styles', 'index.ts'),
+
+    // Styles
+    base: [resolve(__dirname, '..', 'styles', 'base.scss'), ...vendorStyles],
+    block: resolve(__dirname, '..', 'styles', 'block.scss'),
+    components: resolve(__dirname, '..', 'styles', 'components.scss'),
+    section: resolve(__dirname, '..', 'styles', 'section.scss'),
 };
 
 function isVendor({ resource }) {
@@ -48,6 +57,74 @@ module.exports = {
         loaders: [
             {
                 enforce: 'pre',
+                test: /\.css$/,
+                use: "source-map-loader",
+            },
+            {
+                test: /\.css$/,
+                use: ExtractTextPlugin.extract({
+                    fallback: "style-loader",
+                    use: [
+                        {
+                            loader: "css-loader", options: {
+                                sourceMap: true,
+                                localIdentName: '[local]'
+                            }
+                        }
+                    ]
+                })
+            },
+            {
+                enforce: 'pre',
+                test: /\.s[ac]ss$/,
+                use: "source-map-loader",
+                exclude: /node_modules/,
+            },
+            {
+                test: /\.s[ac]ss$/,
+                exclude: /node_modules/,
+                use:
+                    ExtractTextPlugin.extract({
+                        fallback: "style-loader",
+                        use: [
+                            {
+                                loader: "css-loader", options: {
+                                    sourceMap: true,
+                                    modules: true,
+                                    importLoaders: 3,
+                                    localIdentName: '[local]'
+                                }
+                            },
+                            'group-css-media-queries-loader',
+                            {
+                                loader: 'postcss-loader',
+                                options: {
+                                    sourceMap: true,
+                                    plugins: (loader) => [
+                                        require('autoprefixer')({
+                                            browsers: [
+                                                'last 2 versions',
+                                                '> 1%',
+                                                'android 4',
+                                                'iOS 9',
+                                            ],
+                                            cascade: false
+                                        })
+                                    ]
+                                }
+                            },
+                            {
+                                loader: "sass-loader", options: {
+                                    sourceMap: true,
+                                    modules: true,
+                                }
+                            }
+                        ]
+                    })
+
+            },
+            {
+                enforce: 'pre',
                 test: /\.js$/,
                 use: "source-map-loader",
                 exclude: /node_modules|styles/,
@@ -68,6 +145,7 @@ module.exports = {
                     resolve(__dirname, '..', 'client'),
                     resolve(__dirname, '..', 'route'),
                     resolve(__dirname, '..', 'store'),
+                    resolve(__dirname, '..', 'styles'),
                     resolve(__dirname, '..', 'view'),
                     resolve(__dirname, '..', 'utils')
                 ]
@@ -78,6 +156,8 @@ module.exports = {
         new webpack.NoEmitOnErrorsPlugin(),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NamedModulesPlugin(),
+        new WebpackErrorNotificationPlugin(),
+
         new webpack.DefinePlugin({
             'process.env': {
                 BROWSER: JSON.stringify(true),
@@ -85,10 +165,24 @@ module.exports = {
             }
         }),
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+
+        new ExtractTextPlugin("style/[name].css"),
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vendor',
             minChunks: isVendor,
             filename: 'vendor.js'
+        }),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'style',
+            chunks: ['style'],
+            minChunks: Infinity,
+            filename: '[name].js'
+        }),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'bundle',
+            chunks: ['bundle'],
+            minChunks: Infinity,
+            filename: '[name].js'
         })
     ],
     devServer: {
