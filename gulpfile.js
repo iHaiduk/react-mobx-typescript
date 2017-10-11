@@ -3,6 +3,7 @@ const webpack = require("webpack");
 const {readdirSync, writeFile, readFileSync, writeFileSync} = require('fs');
 const {resolve} = require('path');
 const nodemon = require('gulp-nodemon');
+const svgo = require('gulp-svgo');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const aliases = require("./webpack/webpack.frontend.aliases").default;
 
@@ -214,4 +215,60 @@ gulp.task("routeGenerate", () => {
     writeFileSync(resolve("route/backendRoute.tsx"), backendTemplate);
     writeFileSync(resolve("route/clientRoute.tsx"), clientTemplate);
 
+});
+
+gulp.task('svgSprite', (callback) => {
+
+    exec('./node_modules/.bin/svg-sprite-generate -d ./static/icon/ -o ./dist/public/sprite.svg', (err, stdout, stderr) => {
+        if (err != null) {
+            callback(err);
+            console.error(err);
+            return
+        }
+        console.info(stdout);
+        console.error(stderr);
+        callback(err);
+    });
+});
+
+gulp.task('svgoSpr', ['svgSprite'], () => {
+
+    return gulp.src('./dist/public/*.svg', {ignoreInitial: false})
+        .pipe(svgo({
+            plugins: [
+                {removeAttrs: {attrs: ['class', 'viewBox']}},
+                {removeUselessDefs: true},
+                {removeDoctype: true},
+                {removeStyleElement: true},
+                {removeComments: true},
+                {cleanupIDs: false},
+                {removeViewBox: true},
+                {removeRasterImages: true},
+                {sortAttrs: true},
+                {mergePaths: true},
+                {removeTitle: true},
+                {removeDesc: true},
+                {removeScriptElement: true},
+                {cleanupNumericValues: {floatPrecision: 4}},
+                {addAttributesToSVGElement: {attribute: ['viewBox="0 0 24 24"']}}
+            ]
+        }))
+        .pipe(gulp.dest('./dist/public'));
+});
+
+gulp.task('svgoDev', ['svgoSpr'], (cb) => {
+    try {
+        let spriteFile = readFileSync(resolve("dist/public", "sprite.svg"));
+        const svgs = readdirSync(resolve("static/icon", "no_svgo"));
+        let sprites = "";
+        svgs.forEach((file) => {
+            const _spriteFile = readFileSync(resolve("static/icon", "no_svgo", file)).toString().replace(/[\n\r]/igm, "").replace(/\s+/igm, " ");
+            sprites += _spriteFile;
+        });
+        writeFileSync(resolve("dist/public", "sprite.svg"), sprites + spriteFile.toString());
+        cb();
+    } catch (err) {
+        console.error(err);
+        cb(err);
+    }
 });
