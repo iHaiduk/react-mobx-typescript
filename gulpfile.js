@@ -1,9 +1,13 @@
 const gulp = require('gulp');
+const {exec} = require('child_process');
 const webpack = require("webpack");
-const {readdirSync, writeFile, readFileSync, writeFileSync} = require('fs');
+const {readdirSync, writeFile, readFileSync, writeFileSync, existsSync, statSync} = require('fs');
 const {resolve} = require('path');
 const nodemon = require('gulp-nodemon');
 const svgo = require('gulp-svgo');
+const mkdir = require('mkdirp-sync');
+const tinypng = require('gulp-tiny').default;
+const deletefile = require('gulp-delete-file');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const aliases = require("./webpack/webpack.frontend.aliases").default;
 
@@ -258,17 +262,127 @@ gulp.task('svgoSpr', ['svgSprite'], () => {
 
 gulp.task('svgoDev', ['svgoSpr'], (cb) => {
     try {
-        let spriteFile = readFileSync(resolve("dist/public", "sprite.svg"));
-        const svgs = readdirSync(resolve("static/icon", "no_svgo"));
-        let sprites = "";
-        svgs.forEach((file) => {
-            const _spriteFile = readFileSync(resolve("static/icon", "no_svgo", file)).toString().replace(/[\n\r]/igm, "").replace(/\s+/igm, " ");
-            sprites += _spriteFile;
-        });
-        writeFileSync(resolve("dist/public", "sprite.svg"), sprites + spriteFile.toString());
+        if(existsSync(resolve("static/icon", "no_svgo"))) {
+            let spriteFile = readFileSync(resolve("dist/public", "sprite.svg"));
+            let sprites = "";
+            const svgs = readdirSync(resolve("static/icon", "no_svgo"));
+            svgs.forEach((file) => {
+                const _spriteFile = readFileSync(resolve("static/icon", "no_svgo", file)).toString().replace(/[\n\r]/igm, "").replace(/\s+/igm, " ");
+                sprites += _spriteFile;
+            });
+            writeFileSync(resolve("dist/public", "sprite.svg"), sprites + spriteFile.toString());
+        }
         cb();
     } catch (err) {
         console.error(err);
         cb(err);
     }
 });
+
+gulp.task("blockGenerate", (cb) => {
+    const _path = resolve('./view/block');
+    if(existsSync(_path)) {
+        const foldres = readdirSync(_path).filter(function (file) {
+            return statSync(_path + '/' + file).isDirectory();
+        });
+
+        let importBlock = '';
+        let importBlockBack = '';
+        let exportBlock = '';
+        let letName = '';
+
+        foldres.forEach((name) => {
+            letName += "let " + name + ": any;\n";
+            importBlock += '   ' + name + ' = LazyLoadComponent(() => System.import("./' + name + '"), LoadingComponent, ErrorComponent);\n';
+            importBlockBack += '   ' + name + ' = require("./' + name + '").default;\n';
+            exportBlock += '    ' + name + ',\n';
+        });
+
+        if (foldres.length) {
+
+            const blockTemplate = 'import {ErrorComponent} from "_component/ErrorComponent";\n' +
+                'import LazyLoadComponent from "_component/LazyLoadComponent";\n' +
+                'import {LoadingComponent} from "_component/LoadingComponent";\n' +
+                'declare const System: { import: (path: string) => Promise<any>; };\n\n' +
+                letName +
+                'if (process.env.BROWSER) {\n' +
+                importBlock +
+                '} else {\n' +
+                importBlockBack +
+                '}\n' +
+                'export {\n' +
+                exportBlock +
+                '};\n';
+
+            writeFileSync(resolve(_path, "index.ts"), blockTemplate);
+            cb();
+        }
+    } else {
+        cb();
+    }
+});
+
+gulp.task("tinypng", (cb) => {
+    const exit_path = resolve('./static/images');
+    const _path = resolve('./static/original_images');
+    if(existsSync(_path)) {
+
+        if(!existsSync(_path)) mkdir(exit_path);
+
+        return gulp.src('./static/original_images/**/*.{png,jpg,jpeg}')
+            .pipe(tinypng({
+                apiKeys: ['RsN84oBjmXxPkCB5s_ZlfA1fRS1U32LY', 'bN4uZbaI06-ESRiKhD6yS3P4NF9zle7W', 'durCxw2lwQgJmxvwOnpyLrMdEsNEImOY'],
+                cached: true,
+                size: [
+                    {name: "2k", method: "fit", width: 2560, height: 1440},
+                    {name: "full", method: "fit", width: 1920, height: 1080},
+                    {name: "plus", method: "fit", width: 1600, height: 900},
+                    {name: "hd", method: "fit", width: 1366, height: 768},
+                    {name: "xga", method: "fit", width: 1024, height: 768},
+                    {name: "wide", method: "fit", width: 768, height: 480},
+                    {name: "half", method: "fit", width: 480, height: 320}
+                ],
+                exit_path
+            }))
+            .pipe(gulp.dest(exit_path));
+
+    } else {
+        cb();
+    }
+});
+
+gulp.task('------Production------');
+
+gulp.task('pre-build', ['routeGenerate', 'blockGenerate', 'autoTypedStyle', 'tinypng']);
+
+gulp.task('cleanServer', () => {
+    gulp.src(['./dist/server/**/*.*']).pipe(deletefile({
+        reg: /(index\.js$)|(manifest)/ig,
+        deleteMatch: false
+    }))
+});
+
+gulp.task('cleanPublic', () => {
+    gulp.src(['./dist/public/**/*.map', './dist/public/**/*.js']).pipe(deletefile({
+        reg: new RegExp(style_js_remove.join("|"), "ig"),
+        deleteMatch: true
+    }))
+});
+
+gulp.task('cleanStyle', () => {
+    gulp.src(['./dist/public/style/*.css']).pipe(deletefile({
+        reg: new RegExp(style_js_remove.map((e)=> e + "\\.\\w+\\.css").join("|"), "ig"),
+        deleteMatch: false
+    }))
+});
+
+gulp.task('svgo', ['cleanPublic', 'cleanStyle', 'cleanServer'], () => {
+    return gulp.run("svgoDev");
+});
+
+gulp.task('only_copy_images', ['svgo'], () => {
+    return gulp.src('./static/only_copy/**/*.{png,jpg,jpeg,ico}')
+        .pipe(gulp.dest('./dist/public/images'));
+});
+
+gulp.task('build', ['only_copy_images']);
