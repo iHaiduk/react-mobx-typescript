@@ -2,6 +2,7 @@ import logger from "_server/utils/logger";
 import config, {logConfig, NODE_ENV} from "_serverConfig";
 import * as Koa from "koa";
 import * as Router from "koa-router";
+import {resolve} from "path";
 import * as pino from "pino";
 import routing from "./router";
 
@@ -21,6 +22,13 @@ app.use(async (ctx, next) => {
         return ctx.status = error.status || 500;
     }
 });
+
+if (typeof process.env.STATIC_PATH === "string") {
+    const serve = require("koa-static");
+    const staticPath = resolve(process.env.STATIC_PATH);
+    log.info("Public folder:", staticPath);
+    app.use(serve(staticPath));
+}
 
 routing.call(routing, app, new Router());
 

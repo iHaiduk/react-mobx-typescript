@@ -1,6 +1,4 @@
 @import 'utils/bem';
 @import 'variables/index';
 
-@include block('component') {
-  display: block;
-}
+@import "components/image";

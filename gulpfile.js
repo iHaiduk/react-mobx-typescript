@@ -8,6 +8,7 @@ const svgo = require('gulp-svgo');
 const mkdir = require('mkdirp-sync');
 const tinypng = require('gulp-tiny').default;
 const deletefile = require('gulp-delete-file');
+const webp = require('gulp-webp');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const aliases = require("./webpack/webpack.frontend.aliases").default;
 
@@ -351,9 +352,18 @@ gulp.task("tinypng", (cb) => {
     }
 });
 
+gulp.task("webp", ["tinypng"], () => {
+    gulp.src('./static/images/**/*.{jpg,jpeg,png,gif}')
+        .pipe(webp({
+            method: 6,
+            quality: 85
+        }))
+        .pipe(gulp.dest('./static/images'))
+});
+
 gulp.task('------Production------');
 
-gulp.task('pre-build', ['routeGenerate', 'blockGenerate', 'autoTypedStyle', 'tinypng']);
+gulp.task('pre-build', ['routeGenerate', 'blockGenerate', 'autoTypedStyle', 'webp']);
 
 gulp.task('cleanServer', () => {
     gulp.src(['./dist/server/**/*.*']).pipe(deletefile({

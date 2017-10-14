@@ -21,6 +21,7 @@
       "_backendRouter":     [ "./route/backendRoute.tsx" ],
       "_block/*":           [ "./view/blocks/*" ],
       "_component/*":       [ "./view/components/*" ],
+      "_images/*":          [ "./static/images/*" ],
       "_page/*":            [ "./view/pages/*" ],
       "_server/*":          [ "./server/*" ],
       "_store/*":           [ "./store/*" ],

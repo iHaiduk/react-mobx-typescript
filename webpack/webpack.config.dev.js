@@ -2,6 +2,8 @@ const {join, resolve} = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const WebpackErrorNotificationPlugin = require('webpack-error-notification');
+const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
+
 const vendorStyles = require("./vendor.style").default;
 const vendorScripts = require("./vendor.scripts").default;
 const aliases = require("./webpack.frontend.aliases").default;
@@ -25,8 +27,8 @@ const entry = process.env.TEMP_NAME ? {bundle: process.env.TEMP_NAME} : {
 
 function isVendor({ resource }) {
     return resource &&
-        resource.indexOf('node_modules') >= 0 &&
-        resource.match(/\.js$/);
+        (resource.indexOf('utils') >= 0 || (resource.indexOf('node_modules') >= 0 &&
+            resource.match(/\.js$/)));
 }
 
 module.exports = {
@@ -124,6 +126,32 @@ module.exports = {
 
             },
             {
+                test: /\.(woff|ttf|eot|woff2)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                loader: 'file-loader',
+                options: {
+                    name: '[sha512:hash:base64:7].[ext]',
+                    publicPath: function(url) {
+                        return url.replace('../public/fonts/', '/fonts/')
+                    },
+                    outputPath: '../public/fonts/'
+                }
+            },
+            {
+                test: /\.(png|jpg|jpeg|gif|webp)$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[sha512:hash:base64:7].[ext]',
+                            publicPath: function(url) {
+                                return url.replace('../public/images/', '/images/')
+                            },
+                            outputPath: '../public/images/'
+                        }
+                    }
+                ]
+            },
+            {
                 enforce: 'pre',
                 test: /\.js$/,
                 use: "source-map-loader",
@@ -145,6 +173,7 @@ module.exports = {
                     resolve(__dirname, '..', 'client'),
                     resolve(__dirname, '..', 'route'),
                     resolve(__dirname, '..', 'store'),
+                    resolve(__dirname, '..', 'static'),
                     resolve(__dirname, '..', 'styles'),
                     resolve(__dirname, '..', 'view'),
                     resolve(__dirname, '..', 'utils')
@@ -183,6 +212,37 @@ module.exports = {
             chunks: ['bundle'],
             minChunks: Infinity,
             filename: '[name].js'
+        }),
+        new BundleAnalyzerPlugin({
+            // Can be `server`, `static` or `disabled`.
+            // In `server` mode analyzer will start HTTP server to show bundle report.
+            // In `static` mode single HTML file with bundle report will be generated.
+            // In `disabled` mode you can use this plugin to just generate Webpack Stats JSON file by setting `generateStatsFile` to `true`.
+            analyzerMode: 'server',
+            // Host that will be used in `server` mode to start HTTP server.
+            analyzerHost: '0.0.0.0',
+            // Port that will be used in `server` mode to start HTTP server.
+            analyzerPort: 8001,
+            // Path to bundle report file that will be generated in `static` mode.
+            // Relative to bundles output directory.
+            reportFilename: 'report.html',
+            // Module sizes to show in report by default.
+            // Should be one of `stat`, `parsed` or `gzip`.
+            // See "Definitions" section for more information.
+            defaultSizes: 'parsed',
+            // Automatically open report in default browser
+            openAnalyzer: false,
+            // If `true`, Webpack Stats JSON file will be generated in bundles output directory
+            generateStatsFile: false,
+            // Name of Webpack Stats JSON file that will be generated if `generateStatsFile` is `true`.
+            // Relative to bundles output directory.
+            statsFilename: 'stats.json',
+            // Options for `stats.toJson()` method.
+            // For example you can exclude sources of your modules from stats file with `source: false` option.
+            // See more options here: https://github.com/webpack/webpack/blob/webpack-1/lib/Stats.js#L21
+            statsOptions: null,
+            // Log level. Can be 'info', 'warn', 'error' or 'silent'.
+            logLevel: 'info'
         })
     ],
     devServer: {
