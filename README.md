@@ -65,7 +65,7 @@ Visit only backend side render [http://localhost:1337/](http://localhost:1337/)
 - [picturefill](https://github.com/scottjehl/picturefill) v3.0.2
 
 #### For backend side
-- TypeScript](https://www.typescriptlang.org) v2.5.3 + [awesome-typescript-loader](https://github.com/s-panferov/awesome-typescript-loader) v3.2.3
+- [TypeScript](https://www.typescriptlang.org) v2.5.3 + [awesome-typescript-loader](https://github.com/s-panferov/awesome-typescript-loader) v3.2.3
 - [React](https://facebook.github.io/react/) v16.0.0
 - [Koa](http://koajs.com) v2.3.0
 - [koa-router](https://github.com/alexmingoia/koa-router) v7.2.1
