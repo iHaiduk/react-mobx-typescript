@@ -1,6 +1,6 @@
 import {SourceSimple} from "_component/ImageComponent/source";
 import makeId from "_utils/makeid";
-import rclass, {IStyleComponent} from "_utils/rclass";
+import rBem, {IStyleComponent} from "_utils/rBem";
 import * as React from "react";
 import {IImageComponent} from "./interface";
 
@@ -29,7 +29,7 @@ const defaultSizes = [
     },
 ];
 
-@rclass
+@rBem
 export class ImageComponent extends React.PureComponent<IImageComponent & IStyleComponent, {}> {
 
     public static defaultProps: IImageComponent = {
@@ -64,13 +64,13 @@ export class ImageComponent extends React.PureComponent<IImageComponent & IStyle
         } else if (typeof src !== "undefined") {
             if (typeof src === "string") {
                 return (
-                    <picture>
+                    <picture className={getStyle("image")}>
                         <img srcSet={src} src={src} alt={alt}/>
                     </picture>
                 );
             } else if (Array.isArray(src)) {
                 return (
-                    <picture>
+                    <picture className={getStyle("image")}>
                         {src.map((props, key) => <SourceSimple key={key} {...props} />)}
                         <img srcSet={src[0].src} src={src[0].src} alt={alt}/>
                     </picture>

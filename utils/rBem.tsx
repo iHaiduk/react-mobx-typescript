@@ -1,5 +1,6 @@
 /*
- class Component extends React.Component<Iomponent & IStyleComponent, {}> {
+ @rBem
+ class Component extends React.Component<IComponent & IStyleComponent, {}> {
     /// ....
     public render() {
         const {initStyle, getStyle, ...} = this.props;
@@ -19,8 +20,9 @@ import {block, component, section} from "_style";
 import {IValueBlocks, IValueElements, IValueMods} from "_stylesLoad/interface";
 import get from "_utils/just/object-safe-get";
 import set from "_utils/just/object-safe-set";
-import * as classnames from "classnames/dedupe";
 import {Component, createElement} from "react";
+
+const classnames = require("classnames/dedupe");
 
 const styles = {...block, ...component, ...section};
 const isString = (value: any): boolean => typeof value === "string";
@@ -56,7 +58,7 @@ export interface IStyleComponent {
     initStyle?: (value: any[] | any) => string;
 }
 
-const rclass = (Child: any): any => {
+const rBem = (Child: any): any => {
     return class extends Component<any, {}> {
         public render() {
             const newProps: any = {};
@@ -73,4 +75,4 @@ const rclass = (Child: any): any => {
 
 };
 
-export default rclass;
+export default rBem;

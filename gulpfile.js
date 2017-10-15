@@ -1,7 +1,7 @@
 const gulp = require('gulp');
 const {exec} = require('child_process');
 const webpack = require("webpack");
-const {readdirSync, writeFile, readFileSync, writeFileSync, existsSync, statSync} = require('fs');
+const {readdirSync, writeFile, readFileSync, writeFileSync, existsSync, statSync, unlinkSync} = require('fs');
 const {resolve} = require('path');
 const nodemon = require('gulp-nodemon');
 const svgo = require('gulp-svgo');
@@ -30,8 +30,6 @@ gulp.task('------Development------');
 
 gulp.task('run-backend', () => {
     try {
-        // gulp.watch('./dist/public/*.svg', {ignoreInitial: false}, ['svgoDev']);
-
         return nodemon({
             script: './dist/server/index.js',
             ext: 'js',
@@ -292,14 +290,14 @@ gulp.task("blockGenerate", (cb) => {
         let exportBlock = '';
         let letName = '';
 
-        foldres.forEach((name) => {
-            letName += "let " + name + ": any;\n";
-            importBlock += '   ' + name + ' = LazyLoadComponent(() => System.import("./' + name + '"), LoadingComponent, ErrorComponent);\n';
-            importBlockBack += '   ' + name + ' = require("./' + name + '").default;\n';
-            exportBlock += '    ' + name + ',\n';
-        });
-
         if (foldres.length) {
+
+            foldres.forEach((name) => {
+                letName += "let " + name + ": any;\n";
+                importBlock += '   ' + name + ' = LazyLoadComponent(() => System.import("./' + name + '"), LoadingComponent, ErrorComponent);\n';
+                importBlockBack += '   ' + name + ' = require("./' + name + '").default;\n';
+                exportBlock += '    ' + name + ',\n';
+            });
 
             const blockTemplate = 'import {ErrorComponent} from "_component/ErrorComponent";\n' +
                 'import LazyLoadComponent from "_component/LazyLoadComponent";\n' +
@@ -316,6 +314,11 @@ gulp.task("blockGenerate", (cb) => {
                 '};\n';
 
             writeFileSync(resolve(_path, "index.ts"), blockTemplate);
+            cb();
+        } else {
+            if(existsSync(resolve(_path, 'index.ts'))) {
+                unlinkSync(resolve(_path, 'index.ts'));
+            }
             cb();
         }
     } else {
@@ -359,6 +362,21 @@ gulp.task("webp", ["tinypng"], () => {
             quality: 85
         }))
         .pipe(gulp.dest('./static/images'))
+});
+
+gulp.task("watch", () => {
+    gulp.run(["blockGenerate", 'routeGenerate', 'autoTypedStyle', 'svgoDev', "webp"]);
+    gulp.watch('./static/icon/**/*.svg', {readDelay: 300}, ['svgoDev']);
+    gulp.watch("route/Route.json", {readDelay: 300}, ['routeGenerate']);
+    gulp.watch("styles/**/*.scss", {readDelay: 300}, ['autoTypedStyle']);
+    gulp.watch("view/block/**/*", {readDelay: 300, events: ["added", "unlink", "addDir", "unlinkDir"]}, ({path, type}) => {
+        if(statSync(path).isDirectory() || type === "unlink") {
+            gulp.run("blockGenerate");
+        }
+    });
+    gulp.watch("static/original_images/**/*.{png,jpg,jpeg}", {events: ["added"], readDelay: 300}, () => {
+        gulp.run("webp");
+    });
 });
 
 gulp.task('------Production------');

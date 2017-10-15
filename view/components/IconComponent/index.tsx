@@ -19,23 +19,24 @@ export class IconComponent extends React.PureComponent<IIconComponent, {}> {
         super(props);
     }
 
-    public componentDidMount() {
+    public async componentDidMount() {
         try {
             if (process.env.BROWSER) {
-                const {spriteName, onLoaded = noob} = this.props;
-                if ((window as any).prom === undefined) {
+                 const {spriteName, onLoaded = noob} = this.props;
+                 if ((window as any).prom === undefined) {
                     (window as any).prom = new Promise(async (resolve) => {
-                        axios({
+                        const response = await axios({
                             method: "get",
                             url: `/${spriteName}.svg`,
-                        }).then((response) => {
-                            const svgContainer = document.getElementById("svgContainer");
+                        });
+                        const svgContainer = document.getElementById("svgContainer");
+                        if (svgContainer) {
                             svgContainer.innerHTML = response.data;
                             resolve();
-                        });
+                        }
                     });
                 }
-                onLoaded((window as any).prom);
+                 onLoaded((window as any).prom);
             }
         } catch (err) {
             console.error(err);

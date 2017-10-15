@@ -42,8 +42,8 @@
     "silent": true,
     "useBabel": true,
     "babelOptions": {
-      "presets": ["react-optimize", "stage-0", ["env", { "targets": { "browsers": ["last 3 versions", "safari >= 7", "ie >= 10"] } }]],
-      "plugins": [["transform-runtime", { "polyfill": false, "regenerator": true }], "transform-async-to-generator", "transform-decorators-legacy", "transform-class-properties", "transform-react-remove-prop-types", "transform-react-router-optimize", "transform-react-constant-elements", "transform-react-inline-elements", "closure-elimination", "loop-optimizer", "implicit-return", "meaningful-logs"/* Only for development */]
+      "presets": ["react-optimize", ["es2015", { "modules": false }], "stage-0", ["env", { "targets": { "browsers": ["last 3 versions", "safari >= 7", "ie >= 10"] } }]],
+      "plugins": [["transform-runtime", { "polyfill": false, "regenerator": true }], "transform-async-to-generator", "transform-decorators-legacy", "transform-class-properties", "transform-react-remove-prop-types", "transform-react-router-optimize", "transform-react-constant-elements", "transform-react-inline-elements", "closure-elimination", "loop-optimizer", "implicit-return"]
     }
   },
   "exclude": [
