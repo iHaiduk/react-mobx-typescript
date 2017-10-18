@@ -20,7 +20,7 @@
     "typeRoots": ["./node_modules/@types"],
     "baseUrl": "./",
     "paths": {
-      "_block/*":           [ "./view/blocks/*" ],
+      "_block/*":           [ "./view/block/*" ],
       "_component/*":       [ "./view/components/*" ],
       "_clientRouter":      [ "./route/index.tsx" ],
       "_images/*":          [ "./static/images/*" ],

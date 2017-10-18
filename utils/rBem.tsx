@@ -61,16 +61,16 @@ export const getStyle = memo((styleBlock: IValueBlocks, element?: IValueElements
     return get(styles, genPath);
 });
 
-export const initStyle = memo((...value: any[]): string => {
+export const initStyle = (...value: any[]): string => {
     if (Array.isArray(value)) {
         if (typeof value[0] === "object") {
             return classnames(value[0]);
         } else {
-            return classnames(value);
+            return classnames(...Array.prototype.concat.apply([], value));
         }
     }
     return "";
-});
+};
 
 export interface IStyleComponent {
     getStyle?: (styleBlock: IValueBlocks, element?: IValueElements, modifier?: IValueMods) => string;
