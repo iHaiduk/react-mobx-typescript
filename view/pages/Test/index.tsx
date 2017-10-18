@@ -1,5 +1,7 @@
 import IconComponent from "_component/IconComponent";
 import ImageComponent from "_component/ImageComponent";
+import LinkComponent from "_component/LinkComponent";
+import SelectComponent from "_component/SelectComponent";
 import * as React from "react";
 
 export class TestPage extends React.Component<{}, {}> {
@@ -44,6 +46,9 @@ export class TestPage extends React.Component<{}, {}> {
                     ]}
                 />
                 <IconComponent name={"download"}/>
+                <SelectComponent/>
+                <LinkComponent href={"/"} title={"Go Home"}/>
+                <LinkComponent href={"/"} back={true} title={"Go Back"}/>
             </div>
         );
     }

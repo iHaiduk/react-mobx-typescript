@@ -1,6 +1,8 @@
 import {SourceSimple} from "_component/ImageComponent/source";
+import {onlyBrowser} from "_utils/excluded";
 import makeId from "_utils/makeid";
 import {getStyle, initStyle} from "_utils/rBem";
+import {trycatch} from "_utils/trycatch";
 import * as React from "react";
 import {IImageComponent} from "./interface";
 
@@ -33,28 +35,27 @@ const countDefaultSizes = defaultSizes.length;
 export class ImageComponent extends React.PureComponent<IImageComponent, {}> {
 
     public static defaultProps: IImageComponent = {
-        className: "",
+        className: getStyle("image"),
         type: "jpg",
         alt: "",
     };
 
+    @onlyBrowser
     public componentDidMount() {
-        if (process.env.BROWSER) {
-            const picturefill = require("picturefill");
-            picturefill();
-        }
+        const picturefill = require("picturefill");
+        picturefill();
     }
 
+    @trycatch()
     public render() {
         const {name, alt, type, src, className} = this.props;
-
-        const classes = typeof className !== "undefined" ? initStyle(getStyle("image"), className) : getStyle("image");
+        const classes = initStyle(getStyle("image"), className);
 
         if (typeof name === "string" && typeof type === "string") {
             const imagesMedia: any[] = new Array(countDefaultSizes);
             defaultSizes.forEach(({media, size}) => {
-                imagesMedia.push(<SourceSimple key={makeId()} src={require(`_images/${size}/${name}.${type}`)} ext={type} media={media} />);
-                imagesMedia.push(<SourceSimple key={makeId()} src={require(`_images/${size}/${name}.webp`)} ext={"webp"} media={media} />);
+                imagesMedia.push(<SourceSimple key={makeId()} src={require(`_images/${size}/${name}.${type}`)} ext={type} media={media}/>);
+                imagesMedia.push(<SourceSimple key={makeId()} src={require(`_images/${size}/${name}.webp`)} ext={"webp"} media={media}/>);
             });
             const imageName = require(`_images/${name}.${type}`);
             return (

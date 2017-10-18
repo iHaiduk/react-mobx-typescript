@@ -8,6 +8,7 @@
     "object-literal-sort-keys": false,
     "jsx-no-multiline-js": false,
     "max-classes-per-file": [true, 3],
-    "prefer-conditional-expression": false
+    "prefer-conditional-expression": false,
+    "one-line": false
   }
 }

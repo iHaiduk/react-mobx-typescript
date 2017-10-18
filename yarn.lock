@@ -127,6 +127,12 @@
     "@types/history" "*"
     "@types/react" "*"
 
+"@types/react-select@^1.0.59":
+  version "1.0.59"
+  resolved "https://registry.yarnpkg.com/@types/react-select/-/react-select-1.0.59.tgz#791022e5b2c7cd5c86301949ea5e4cc94a55bc66"
+  dependencies:
+    "@types/react" "*"
+
 "@types/react@*", "@types/react@^16.0.13":
   version "16.0.13"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.0.13.tgz#973836e6deec10184937322cd10a1605f9de81fc"
@@ -1706,7 +1712,7 @@ class-utils@^0.3.5:
     lazy-cache "^2.0.2"
     static-extend "^0.1.1"
 
-classnames@^2.2.5:
+classnames@^2.2.4, classnames@^2.2.5:
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.5.tgz#fb3801d453467649ef3603c7d61a02bd129bde6d"
 
@@ -2032,6 +2038,14 @@ create-hmac@^1.1.0, create-hmac@^1.1.2, create-hmac@^1.1.4:
     ripemd160 "^2.0.0"
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
+
+create-react-class@^15.5.2:
+  version "15.6.2"
+  resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.6.2.tgz#cf1ed15f12aad7f14ef5f2dfe05e6c42f91ef02a"
+  dependencies:
+    fbjs "^0.8.9"
+    loose-envify "^1.3.1"
+    object-assign "^4.1.1"
 
 cross-env@^5.1.0:
   version "5.1.0"
@@ -2992,7 +3006,7 @@ faye-websocket@~0.11.0:
   dependencies:
     websocket-driver ">=0.5.1"
 
-fbjs@^0.8.16:
+fbjs@^0.8.16, fbjs@^0.8.9:
   version "0.8.16"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.16.tgz#5e67432f550dc41b572bf55847b8aca64e5337db"
   dependencies:
@@ -5636,6 +5650,10 @@ os-locale@^2.0.0:
     lcid "^1.0.0"
     mem "^1.1.0"
 
+os-shim@^0.1.2:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/os-shim/-/os-shim-0.1.3.tgz#6b62c3791cf7909ea35ed46e17658bb417cb3917"
+
 os-tmpdir@^1.0.0, os-tmpdir@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/os-tmpdir/-/os-tmpdir-1.0.2.tgz#bbe67406c79aa85c5cfec766fe5734555dfa1274"
@@ -6168,6 +6186,14 @@ postcss@^6.0.0, postcss@^6.0.1, postcss@^6.0.13:
     source-map "^0.6.1"
     supports-color "^4.4.0"
 
+pre-commit@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/pre-commit/-/pre-commit-1.2.2.tgz#dbcee0ee9de7235e57f79c56d7ce94641a69eec6"
+  dependencies:
+    cross-spawn "^5.0.1"
+    spawn-sync "^1.0.15"
+    which "1.2.x"
+
 prepend-http@^1.0.0, prepend-http@^1.0.1:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/prepend-http/-/prepend-http-1.0.4.tgz#d4f4562b0ce3696e41ac52d0e002e57a635dc6dc"
@@ -6210,7 +6236,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.4, prop-types@^15.6.0:
+prop-types@^15.5.4, prop-types@^15.5.8, prop-types@^15.6.0:
   version "15.6.0"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.0.tgz#ceaf083022fc46b4a35f69e13ef75aed0d639856"
   dependencies:
@@ -6380,6 +6406,13 @@ react-hot-loader@3.1.1:
     redbox-react "^1.3.6"
     source-map "^0.6.1"
 
+react-input-autosize@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/react-input-autosize/-/react-input-autosize-2.0.1.tgz#e92190497b4026c2780ad0f2fd703c835ba03e33"
+  dependencies:
+    create-react-class "^15.5.2"
+    prop-types "^15.5.8"
+
 react-proxy@^3.0.0-alpha.0:
   version "3.0.0-alpha.1"
   resolved "https://registry.yarnpkg.com/react-proxy/-/react-proxy-3.0.0-alpha.1.tgz#4400426bcfa80caa6724c7755695315209fa4b07"
@@ -6397,6 +6430,14 @@ react-router@^4.2.0:
     path-to-regexp "^1.7.0"
     prop-types "^15.5.4"
     warning "^3.0.0"
+
+react-select@^1.0.0-rc.10:
+  version "1.0.0-rc.10"
+  resolved "https://registry.yarnpkg.com/react-select/-/react-select-1.0.0-rc.10.tgz#f137346250f9255c979fbfa21860899928772350"
+  dependencies:
+    classnames "^2.2.4"
+    prop-types "^15.5.8"
+    react-input-autosize "^2.0.1"
 
 react-side-effect@^1.1.0:
   version "1.1.3"
@@ -7126,6 +7167,13 @@ sourcemapped-stacktrace@^1.1.6:
 sparkles@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/sparkles/-/sparkles-1.0.0.tgz#1acbbfb592436d10bbe8f785b7cc6f82815012c3"
+
+spawn-sync@^1.0.15:
+  version "1.0.15"
+  resolved "https://registry.yarnpkg.com/spawn-sync/-/spawn-sync-1.0.15.tgz#b00799557eb7fb0c8376c29d44e8a1ea67e57476"
+  dependencies:
+    concat-stream "^1.4.7"
+    os-shim "^0.1.2"
 
 spdx-correct@~1.0.0:
   version "1.0.2"
@@ -8190,6 +8238,12 @@ which-module@^2.0.0:
 which@1, which@^1.2.12, which@^1.2.9:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/which/-/which-1.3.0.tgz#ff04bdfc010ee547d780bec38e1ac1c2777d253a"
+  dependencies:
+    isexe "^2.0.0"
+
+which@1.2.x:
+  version "1.2.14"
+  resolved "https://registry.yarnpkg.com/which/-/which-1.2.14.tgz#9a87c4378f03e827cecaf1acdf56c736c01c14e5"
   dependencies:
     isexe "^2.0.0"
 

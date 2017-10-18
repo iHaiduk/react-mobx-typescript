@@ -15,8 +15,18 @@
     "build": "./node_modules/.bin/gulp pre-build && yarn run frontend && yarn run backend && ./node_modules/.bin/gulp build",
     "-----Lints-----": "",
     "lint-typescript": "./node_modules/.bin/tslint -c tslint.json './client/**/*.{ts,tsx}' && ./node_modules/.bin/tslint -c tslint.json './route/**/*.{ts,tsx}' && ./node_modules/.bin/tslint -c tslint.json './server/**/*.{ts,tsx}' && ./node_modules/.bin/tslint -c tslint.json './store/**/*.{ts,tsx}' && ./node_modules/.bin/tslint -c tslint.json './utils/**/*.{ts,tsx}' && ./node_modules/.bin/tslint -c tslint.json './view/**/*.{ts,tsx}'",
-    "lint-typescript-fix": "./node_modules/.bin/tslint -c tslint.json './client/**/*.{ts,tsx}' --fix&& ./node_modules/.bin/tslint -c tslint.json './route/**/*.{ts,tsx}' --fix&& ./node_modules/.bin/tslint -c tslint.json './server/**/*.{ts,tsx}' --fix&& ./node_modules/.bin/tslint -c tslint.json './store/**/*.{ts,tsx}' --fix&& ./node_modules/.bin/tslint -c tslint.json './utils/**/*.{ts,tsx}' --fix&& ./node_modules/.bin/tslint -c tslint.json './view/**/*.{ts,tsx}' --fix"
+    "lint-typescript-fix": "./node_modules/.bin/tslint -c tslint.json './client/**/*.{ts,tsx}' --fix&& ./node_modules/.bin/tslint -c tslint.json './route/**/*.{ts,tsx}' --fix&& ./node_modules/.bin/tslint -c tslint.json './server/**/*.{ts,tsx}' --fix&& ./node_modules/.bin/tslint -c tslint.json './store/**/*.{ts,tsx}' --fix&& ./node_modules/.bin/tslint -c tslint.json './utils/**/*.{ts,tsx}' --fix&& ./node_modules/.bin/tslint -c tslint.json './view/**/*.{ts,tsx}' --fix",
+    "lint": "yarn run lint-typescript",
+    "-----Other-----": "",
+    "clean-cache": "rm -rf ./.gulp",
+    "clean-build": "rm -rf ./dist",
+    "precommit-msg": "echo 'Pre-commit checks...' && exit 0",
+    "pull": "git reset --hard HEAD&&git pull"
   },
+  "pre-commit": [
+    "precommit-msg",
+    "lint"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/iHaiduk/react-mobx-typescript.git"
@@ -48,6 +58,7 @@
     "@types/react-helmet": "^5.0.3",
     "@types/react-hot-loader": "^3.0.4",
     "@types/react-router": "^4.0.15",
+    "@types/react-select": "^1.0.59",
     "@types/serialize-javascript": "^1.3.1",
     "@types/webpack-env": "^1.13.2",
     "autoprefixer": "^7.1.5",
@@ -90,6 +101,7 @@
     "mobx-react-devtools": "^4.2.15",
     "node-sass": "^4.5.3",
     "postcss-loader": "^2.0.8",
+    "pre-commit": "^1.2.2",
     "react-hot-loader": "3.1.1",
     "sass-loader": "^6.0.6",
     "source-map-loader": "^0.2.2",
@@ -129,6 +141,7 @@
     "react-dom": "^16.0.0",
     "react-helmet": "^5.2.0",
     "react-router": "^4.2.0",
+    "react-select": "^1.0.0-rc.10",
     "serialize-javascript": "^1.4.0"
   }
 }

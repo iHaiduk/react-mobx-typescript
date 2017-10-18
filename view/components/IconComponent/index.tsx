@@ -1,8 +1,10 @@
+import {onlyBrowser} from "_utils/excluded";
 import noob from "_utils/noob";
+import {getStyle, initStyle} from "_utils/rBem";
+import {trycatch} from "_utils/trycatch";
 import axios from "axios";
 import * as React from "react";
 import {IIconComponent} from "./interface";
-import {getStyle, initStyle} from "_utils/rBem";
 
 export class IconComponent extends React.PureComponent<IIconComponent, {}> {
 
@@ -13,34 +15,31 @@ export class IconComponent extends React.PureComponent<IIconComponent, {}> {
         viewBox: "0 0 24 24",
     };
 
-    constructor(props: IIconComponent) {
-        super(props);
-    }
-
+    @trycatch()
+    @onlyBrowser
     public async componentDidMount() {
         try {
-            if (process.env.BROWSER) {
-                const {spritename, onLoaded = noob} = this.props;
-                if ((window as any).prom === undefined) {
-                    (window as any).prom = new Promise(async (resolve) => {
-                        const response = await axios({
-                            method: "get",
-                            url: `/${spritename}.svg`,
-                        });
-                        const svgContainer = document.getElementById("svgContainer");
-                        if (svgContainer) {
-                            svgContainer.innerHTML = response.data;
-                            resolve();
-                        }
+            const {spritename, onLoaded = noob} = this.props;
+            if ((window as any).prom === undefined) {
+                (window as any).prom = new Promise(async (resolve) => {
+                    const response = await axios({
+                        method: "get",
+                        url: `/${spritename}.svg`,
                     });
-                }
-                onLoaded((window as any).prom);
+                    const svgContainer = document.getElementById("svgContainer");
+                    if (svgContainer) {
+                        svgContainer.innerHTML = response.data;
+                        resolve();
+                    }
+                });
             }
+            onLoaded((window as any).prom);
         } catch (err) {
             console.error(err);
         }
     }
 
+    @trycatch()
     public render() {
 
         const {name, className, refComponent, viewBox, ...otherProps} = this.props;
