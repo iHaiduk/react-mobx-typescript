@@ -1,17 +1,15 @@
-// import {component} from "_style";
-// import classnames from "_utils/classnames";
-// import noob from "_utils/noob";
-// import request from "_utils/xhr";
 import noob from "_utils/noob";
 import axios from "axios";
 import * as React from "react";
 import {IIconComponent} from "./interface";
+import {getStyle, initStyle} from "_utils/rBem";
 
 export class IconComponent extends React.PureComponent<IIconComponent, {}> {
 
     public static defaultProps: IIconComponent = {
         name: null,
-        spriteName: "sprite",
+        className: getStyle("icon"),
+        spritename: "sprite",
         viewBox: "0 0 24 24",
     };
 
@@ -22,12 +20,12 @@ export class IconComponent extends React.PureComponent<IIconComponent, {}> {
     public async componentDidMount() {
         try {
             if (process.env.BROWSER) {
-                 const {spriteName, onLoaded = noob} = this.props;
-                 if ((window as any).prom === undefined) {
+                const {spritename, onLoaded = noob} = this.props;
+                if ((window as any).prom === undefined) {
                     (window as any).prom = new Promise(async (resolve) => {
                         const response = await axios({
                             method: "get",
-                            url: `/${spriteName}.svg`,
+                            url: `/${spritename}.svg`,
                         });
                         const svgContainer = document.getElementById("svgContainer");
                         if (svgContainer) {
@@ -36,7 +34,7 @@ export class IconComponent extends React.PureComponent<IIconComponent, {}> {
                         }
                     });
                 }
-                 onLoaded((window as any).prom);
+                onLoaded((window as any).prom);
             }
         } catch (err) {
             console.error(err);
@@ -45,20 +43,16 @@ export class IconComponent extends React.PureComponent<IIconComponent, {}> {
 
     public render() {
 
-        const {name} = this.props;
+        const {name, className, refComponent, viewBox, ...otherProps} = this.props;
+        const classes = initStyle(getStyle("icon"), className);
 
-        return !!name && (<span>12345</span>);
-
-        // const {name, viewBox, className, refComponent, spriteName, onLoaded, ...otherProps} = this.props;
-        // const classes = classnames(component.icon, className);
-        //
-        // return !!name && (
-        //     <span className={classes} ref={refComponent} {...otherProps}>
-        //         <svg viewBox={viewBox}>
-        //             <use xlinkHref={`#${name}`}/>
-        //         </svg>
-        //     </span>
-        // );
+        return !!name && (
+            <span className={classes} ref={refComponent} {...otherProps}>
+                 <svg viewBox={viewBox}>
+                    <use xlinkHref={`#${name}`}/>
+                </svg>
+            </span>
+        );
     }
 }
 

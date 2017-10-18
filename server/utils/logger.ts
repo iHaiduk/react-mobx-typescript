@@ -25,7 +25,7 @@ const isLog = (logPino: any, idRequest: string, ctx: any, start: number, len: an
     } else if (len == null) {
         length = "-";
     } else {
-        length = bytes(len).toLowerCase();
+        length = bytes(len);
     }
 
     const type: string = err ? "error"

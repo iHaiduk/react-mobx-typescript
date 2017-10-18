@@ -1,6 +1,6 @@
 import {SourceSimple} from "_component/ImageComponent/source";
 import makeId from "_utils/makeid";
-import rBem, {IStyleComponent} from "_utils/rBem";
+import {getStyle, initStyle} from "_utils/rBem";
 import * as React from "react";
 import {IImageComponent} from "./interface";
 
@@ -28,9 +28,9 @@ const defaultSizes = [
         media: "(max-width: 480px)",
     },
 ];
+const countDefaultSizes = defaultSizes.length;
 
-@rBem
-export class ImageComponent extends React.PureComponent<IImageComponent & IStyleComponent, {}> {
+export class ImageComponent extends React.PureComponent<IImageComponent, {}> {
 
     public static defaultProps: IImageComponent = {
         className: "",
@@ -46,17 +46,19 @@ export class ImageComponent extends React.PureComponent<IImageComponent & IStyle
     }
 
     public render() {
-        const {name, alt, type, src, getStyle} = this.props;
+        const {name, alt, type, src, className} = this.props;
+
+        const classes = typeof className !== "undefined" ? initStyle(getStyle("image"), className) : getStyle("image");
 
         if (typeof name === "string" && typeof type === "string") {
-            const imagesMedia: any[] = [];
+            const imagesMedia: any[] = new Array(countDefaultSizes);
             defaultSizes.forEach(({media, size}) => {
                 imagesMedia.push(<SourceSimple key={makeId()} src={require(`_images/${size}/${name}.${type}`)} ext={type} media={media} />);
                 imagesMedia.push(<SourceSimple key={makeId()} src={require(`_images/${size}/${name}.webp`)} ext={"webp"} media={media} />);
             });
             const imageName = require(`_images/${name}.${type}`);
             return (
-                <picture className={getStyle("image")}>
+                <picture className={classes}>
                     {imagesMedia}
                     <img srcSet={imageName} src={imageName} alt={alt}/>
                 </picture>
@@ -64,13 +66,13 @@ export class ImageComponent extends React.PureComponent<IImageComponent & IStyle
         } else if (typeof src !== "undefined") {
             if (typeof src === "string") {
                 return (
-                    <picture className={getStyle("image")}>
+                    <picture className={classes}>
                         <img srcSet={src} src={src} alt={alt}/>
                     </picture>
                 );
             } else if (Array.isArray(src)) {
                 return (
-                    <picture className={getStyle("image")}>
+                    <picture className={classes}>
                         {src.map((props, key) => <SourceSimple key={key} {...props} />)}
                         <img srcSet={src[0].src} src={src[0].src} alt={alt}/>
                     </picture>

@@ -1,0 +1,13 @@
+@import '../variables/index';
+
+@include block('icon') {
+  display: inline-block;
+  overflow: visible;
+  width: $icon-default-size;
+
+  & svg {
+    display: block;
+    overflow: visible;
+  }
+
+}
