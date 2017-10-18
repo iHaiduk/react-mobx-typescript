@@ -46,7 +46,7 @@ Visit only backend side render [http://localhost:1337/](http://localhost:1337/)
 
 ### Built using
 #### For styles
-- [Webpack](https://webpack.github.io) v3.7.1
+- [Webpack](https://webpack.github.io) v3.8.1
 - [SCSS](http://sass-lang.com) + [sass-loader](https://github.com/webpack-contrib/sass-loader) v6.0.6
 - [autoprefixer](https://github.com/postcss/autoprefixer) v7.1.5
 - [cssnano](http://cssnano.co) v3.10.0 (only for production environment)
@@ -55,7 +55,7 @@ Visit only backend side render [http://localhost:1337/](http://localhost:1337/)
 - [TypeScript](https://www.typescriptlang.org) v2.5.3 + [awesome-typescript-loader](https://github.com/s-panferov/awesome-typescript-loader) v3.2.3
 - [React](https://facebook.github.io/react/) v16.0.0
 - [mobx](https://mobx.js.org) v3.3.1 + [mobx-react](https://github.com/mobxjs/mobx-react) v4.3.3
-- [Webpack](https://webpack.github.io) v3.7.1
+- [Webpack](https://webpack.github.io) v3.8.1
 
 ###### Other libraries for frontend
 - [react-router](https://github.com/ReactTraining/react-router) v4.2.0
@@ -91,7 +91,7 @@ Visit only backend side render [http://localhost:1337/](http://localhost:1337/)
 - [babel-plugin-transform-react-router-optimize](https://github.com/nerdlabs/babel-plugin-transform-react-router-optimize) v1.0.2
 - [babel-plugin-transform-runtime](https://github.com/babel/babel/tree/master/packages/babel-plugin-transform-runtime) v6.23.0
 - [babel-polyfill](https://github.com/babel/babel/tree/master/packages/babel-polyfill) v6.26.0
-- [babel-preset-env](https://github.com/babel/babel-preset-env) v1.6.0
+- [babel-preset-env](https://github.com/babel/babel-preset-env) v1.6.1
 - [babel-preset-es2015](https://github.com/babel/babel/tree/master/packages/babel-preset-es2015) v6.24.1
 - [babel-preset-node8](https://github.com/lestad/babel-preset-node8) v1.2.0
 - [babel-react-optimize](https://github.com/thejameskyle/babel-react-optimize) v1.0.1
