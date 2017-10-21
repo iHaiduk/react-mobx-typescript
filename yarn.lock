@@ -659,19 +659,9 @@ babel-plugin-closure-elimination@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-closure-elimination/-/babel-plugin-closure-elimination-1.3.0.tgz#3217fbf6d416dfdf14ff41a8a34e4d0a6bfc22b2"
 
-babel-plugin-implicit-return@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/babel-plugin-implicit-return/-/babel-plugin-implicit-return-1.0.1.tgz#62346d145aa078c456a6b9af7d9cbb4c0d2df008"
-
 babel-plugin-loop-optimizer@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/babel-plugin-loop-optimizer/-/babel-plugin-loop-optimizer-1.4.1.tgz#61b2e029a5c2157f575c7d3ae99acc63ae2b53d9"
-
-babel-plugin-meaningful-logs@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/babel-plugin-meaningful-logs/-/babel-plugin-meaningful-logs-1.0.2.tgz#984c2ede556109a80c15ef246ee7d1f6dcbe047b"
-  dependencies:
-    lodash "^4.13.1"
 
 babel-plugin-minify-dead-code-elimination@^0.1.7:
   version "0.1.7"
@@ -4894,7 +4884,7 @@ lodash.uniq@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
 
-"lodash@>=3.5 <5", lodash@^4.0.0, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.17.2, lodash@^4.17.4, lodash@^4.6.1, lodash@~4.17.4:
+"lodash@>=3.5 <5", lodash@^4.0.0, lodash@^4.14.0, lodash@^4.17.2, lodash@^4.17.4, lodash@^4.6.1, lodash@~4.17.4:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 

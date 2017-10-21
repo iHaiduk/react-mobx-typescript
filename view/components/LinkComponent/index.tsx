@@ -1,6 +1,5 @@
 import {IconComponent} from "_component/IconComponent";
 import {PureComponent} from "_component/PureComponent";
-import {onlyBrowser} from "_utils/excluded";
 import {getStyle, initStyle} from "_utils/rBem";
 import {trycatch} from "_utils/trycatch";
 import { inject, observer } from "mobx-react";
@@ -19,9 +18,7 @@ export class LinkComponent extends React.Component<ILinkComponent, {}> {
 
     constructor(props: ILinkComponent) {
         super(props);
-        if (process.env.BROWSER) {
-            this.onClick = this.onClick.bind(this);
-        }
+        this.onClick = this.onClick.bind(this);
     }
 
     @trycatch()
@@ -39,7 +36,6 @@ export class LinkComponent extends React.Component<ILinkComponent, {}> {
         );
     }
 
-    @onlyBrowser
     private onClick(event?: any) {
         event.preventDefault();
         const { href, back, routing} = this.props;
