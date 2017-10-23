@@ -6,6 +6,7 @@ const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
 
 const vendorStyles = require("./vendor.style").default;
 const vendorScripts = require("./vendor.scripts").default;
+const bundleScripts = require("./vendor.scripts").bundle;
 const aliases = require("./webpack.frontend.aliases").default;
 
 const entry = process.env.TEMP_NAME ? {bundle: process.env.TEMP_NAME} : {
@@ -14,7 +15,7 @@ const entry = process.env.TEMP_NAME ? {bundle: process.env.TEMP_NAME} : {
         'webpack-dev-server/client?http://localhost:3000',
         'webpack/hot/only-dev-server',
         join(__dirname, '..', 'client', 'index.tsx')
-    ],
+    ].concat(bundleScripts),
     vendor: vendorScripts,
     style: join(__dirname, '..', 'styles', 'index.ts'),
 

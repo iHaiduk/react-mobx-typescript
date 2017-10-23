@@ -7,13 +7,14 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
 const vendorStyles = require("./vendor.style").default;
 const vendorScripts = require("./vendor.scripts").default;
+const bundleScripts = require("./vendor.scripts").bundle;
 const aliases = require("./webpack.frontend.aliases").default;
 const Hashids = require('hashids');
 
 const entry = process.env.TEMP_NAME ? {bundle: process.env.TEMP_NAME} : {
     bundle: [
         join(__dirname, '..', 'client', 'index.tsx')
-    ],
+    ].concat(bundleScripts),
     vendor: vendorScripts,
     style: join(__dirname, '..', 'styles', 'index.ts'),
 

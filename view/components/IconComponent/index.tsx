@@ -42,7 +42,7 @@ export class IconComponent extends React.PureComponent<IIconComponent, {}> {
     @trycatch()
     public render() {
 
-        const {name, className, refComponent, viewBox, ...otherProps} = this.props;
+        const {name, className, refComponent, viewBox, onLoaded, ...otherProps} = this.props;
         const classes = initStyle(getStyle("icon"), className);
 
         return !!name && (

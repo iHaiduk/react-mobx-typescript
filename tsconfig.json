@@ -1,61 +1,60 @@
 {
   "compilerOptions": {
     "alwaysStrict": true,
-    "outDir": "./dist/",
-    "sourceMap": true,
-    "noImplicitAny": true,
-    "module": "commonjs",
-    "moduleResolution": "node",
     "target": "es2015",
+    "module": "commonjs",
+    "declaration": false,
+    "noImplicitAny": false,
+    "removeComments": true,
+    "experimentalDecorators": true,
+    "lib": [ "es6", "es7", "dom" ],
     "jsx": "react",
-    "removeComments": false,
+    "outDir": "./dist/",
+    "allowSyntheticDefaultImports": true,
     "allowUnusedLabels": false,
     "noImplicitThis": true,
     "noUnusedLocals": true,
     "noUnusedParameters": false,
-    "experimentalDecorators": true,
+    "sourceMap": true,
     "emitDecoratorMetadata": true,
     "typeRoots": ["./node_modules/@types"],
     "baseUrl": "./",
     "paths": {
-      "_backendRouter":     [ "./route/backendRoute.tsx" ],
-      "_block/*":           [ "./view/blocks/*" ],
+      "_block/*":           [ "./view/block/*" ],
       "_component/*":       [ "./view/components/*" ],
+      "_clientRouter":      [ "./route/index.tsx" ],
       "_images/*":          [ "./static/images/*" ],
       "_page/*":            [ "./view/pages/*" ],
-      "_server/*":          [ "./server/*" ],
       "_store/*":           [ "./store/*" ],
       "_stores":            [ "./store/index" ],
-      "_serverConfig":      [ "./server/config" ],
-      "_serverRoute/*":     [ "./server/router/*" ],
       "_stylesLoad/*":      [ "./styles/*" ],
       "_style":             [ "./styles/index" ],
-      "_view/*":            [ "./view/router/*" ],
+      "_view/*":            [ "./view/*" ],
       "_utils/*":           [ "./utils/*" ]
     }
   },
   "awesomeTypescriptLoaderOptions": {
     "forkChecker": true,
-    "useWebpackText": true,
-    "useBabel": true,
+    "useWebpackText": false,
     "useCache": true,
     "cacheDirectory": ".gulp/ts",
     "useTranspileModule": true,
     "silent": true,
+    "useBabel": true,
     "babelOptions": {
-      "presets": ["node8",["env", { "targets": { "node": "8.4" } }], "react-optimize", "stage-0"],
-      "plugins": ["transform-async-to-generator", "transform-decorators-legacy", "transform-class-properties", "transform-react-remove-prop-types", "transform-react-router-optimize", "transform-react-constant-elements", "transform-react-inline-elements", "closure-elimination", "loop-optimizer", "implicit-return", "meaningful-logs"/* Only for development */]
+      "presets": ["react-optimize", ["es2015", { "modules": false }], "stage-0", ["env", { "targets": { "browsers": ["last 3 versions", "safari >= 7", "ie >= 10"] } }]],
+      "plugins": [["transform-runtime", { "polyfill": false, "regenerator": true }], "transform-async-to-generator", "transform-decorators-legacy", "transform-class-properties", "transform-react-remove-prop-types", "transform-react-router-optimize", "transform-react-constant-elements", "transform-react-inline-elements", "closure-elimination", "loop-optimizer"]
     }
   },
   "exclude": [
     ".gulp",
     "node_modules",
-    "client",
-    "dist",
-    "static"
+    "server",
+    "dist"
   ],
+
   "include": [
-    "./server/**/*",
+    "./client/**/*",
     "./store/**/*",
     "./styles/**/*",
     "./view/**/*",
