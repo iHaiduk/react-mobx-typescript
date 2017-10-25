@@ -1,8 +1,8 @@
-export let set: any;
+export let get: any;
 if (process.env.BROWSER) {
-    set = require("lodash-es/get").default;
+    get = require("lodash-es/get").default;
 } else {
-    set = require("lodash-node/modern/object/get");
+    get = require("lodash-node/modern/object/get");
 }
 
-export default set;
+export default get;
