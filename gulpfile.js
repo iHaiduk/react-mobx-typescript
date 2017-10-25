@@ -355,7 +355,7 @@ gulp.task("tinypng", (cb) => {
     }
 });
 
-gulp.task("webp", () => {
+gulp.task("webp", ["tinypng"], () => {
     gulp.src('./static/images/**/*.{jpg,jpeg,png,gif}')
         .pipe(webp({
             method: 6,

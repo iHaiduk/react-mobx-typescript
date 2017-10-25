@@ -1,28 +1,8 @@
-/*
-  var obj = {a: {aa: {aaa: 2}}, b: 4};
-  get(obj, 'a.aa.aaa'); // 2
-  get(obj, ['a', 'aa', 'aaa']); // 2
-  get(obj, 'b.bb.bbb'); // undefined
-  get(obj, ['b', 'bb', 'bbb']); // undefined
-  get(obj.a, 'aa.aaa'); // 2
-  get(obj.a, ['aa', 'aaa']); // 2
-  get(obj.b, 'bb.bbb'); // undefined
-  get(obj.b, ['bb', 'bbb']); // undefined
-*/
+export let set: any;
+if (process.env.BROWSER) {
+    set = require("lodash-es/get").default;
+} else {
+    set = require("lodash-node/modern/object/get");
+}
 
-export const get = (obj: any, props: string | string[]) => {
-    if (typeof props === "string") {
-        props = props.split(".");
-    }
-    let prop: string = props.shift();
-    while (prop) {
-        obj = obj[prop];
-        if (!obj) {
-            return obj;
-        }
-        prop = props.shift();
-    }
-    return obj;
-};
-
-export default get;
+export default set;

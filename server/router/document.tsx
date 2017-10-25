@@ -17,10 +17,6 @@ const HTMLStart = (): string => {
         <head>
             {helmet.title.toComponent()}
             {helmet.meta.toComponent()}
-            <link href={`/${ASSETS["base.css"] || "style/base.css"}`} media="all" rel="stylesheet"/>
-            <link href={`/${ASSETS["section.css"] || "style/section.css"}`} media="all" rel="stylesheet"/>
-            <link href={`/${ASSETS["block.css"] || "style/block.css"}`} media="all" rel="stylesheet"/>
-            <link href={`/${ASSETS["components.css"] || "style/components.css"}`} media="all" rel="stylesheet"/>
             {helmet.link.toComponent()}
         </head>,
     );
@@ -56,11 +52,15 @@ export const render: (ctx: Context, location: string, data: any) => void = (ctx:
 
         ctx.res.write(`<script type="text/javascript">window.__initState__=${memoStringify(props, true)};window.__initRoute__=${memoStringify(routing)}</script>`);
         ctx.res.write(`<script type="text/javascript">window.ASSETS=${JSON.stringify(ASSETS)}</script>`);
-        ctx.res.write(`<script src="${ASSETS["vendor.js"] || "vendor.js"}" type="text/javascript"></script>`);
-        ctx.res.write(`<script src="${ASSETS["style.js"] || "style.js"}" type="text/javascript"></script>`);
-        ctx.res.write(`<script src="${ASSETS["bundle.js"] || "bundle.js"}" type="text/javascript"></script>`);
 
         ctx.res.write("</body></html>");
+        ctx.res.write(`<link href="/${ASSETS["base.css"] || "style/base.css"}" rel="stylesheet" media="none" onload="if(media!='all')media='all'"/>`);
+        ctx.res.write(`<link href="/${ASSETS["section.css"] || "style/section.css"}" rel="stylesheet" media="none" onload="if(media!='all')media='all'"/>`);
+        ctx.res.write(`<link href="/${ASSETS["block.css"] || "style/block.css"}" rel="stylesheet" media="none" onload="if(media!='all')media='all'"/>`);
+        ctx.res.write(`<link href="/${ASSETS["components.css"] || "style/components.css"}" rel="stylesheet" media="none" onload="if(media!='all')media='all'"/>`);
+        ctx.res.write(`<script src="/${ASSETS["vendor.js"] || "vendor.js"}" type="text/javascript"></script>`);
+        ctx.res.write(`<script src="/${ASSETS["style.js"] || "style.js"}" type="text/javascript"></script>`);
+        ctx.res.write(`<script src="/${ASSETS["bundle.js"] || "bundle.js"}" type="text/javascript"></script>`);
     });
 
     return stream;

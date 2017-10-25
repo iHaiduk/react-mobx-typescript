@@ -41,5 +41,5 @@ const bundle = [
     resolve(__dirname, "..", "store", "index.ts")
 ];
 // exports.default = vendor;
-exports.default = [].concat(vendor, walkSync(resolve(__dirname, "..", "utils")));
+exports.default = [].concat(vendor, walkSync(resolve(__dirname, "..", "utils")).filter(e => e.indexOf("rBem") === -1));
 exports.bundle = [].concat(bundle, walkSync(resolve(__dirname, "..", "view/components")));

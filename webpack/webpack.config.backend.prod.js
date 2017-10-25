@@ -205,17 +205,17 @@ module.exports = {
         }),
         new ExtractTextPlugin("../../.gulp/styleTemp/[name].[chunkhash:4].css"),
         new UglifyJSPlugin({
-            parallel: {
-                cache: true,
-                workers: true
-            },
+            parallel: true,
+            sourceMap: false,
             uglifyOptions: {
                 ecma: 8,
+                ie8: false,
                 warnings: false,
                 output: {
                     beautify: false,
                     keep_quoted_props: true,
-                    shebang: false
+                    shebang: false,
+                    comments: false,
                 },
                 compress: {
                     properties: true,

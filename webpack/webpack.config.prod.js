@@ -16,7 +16,7 @@ const entry = process.env.TEMP_NAME ? {bundle: process.env.TEMP_NAME} : {
         join(__dirname, '..', 'client', 'index.tsx')
     ].concat(bundleScripts),
     vendor: vendorScripts,
-    style: join(__dirname, '..', 'styles', 'index.ts'),
+    style: [join(__dirname, '..', 'styles', 'index.ts'), join(__dirname, '..', 'utils', 'rBem.tsx')],
 
     // Styles
     base: [resolve(__dirname, '..', 'styles', 'base.scss'), ...vendorStyles],
@@ -26,9 +26,7 @@ const entry = process.env.TEMP_NAME ? {bundle: process.env.TEMP_NAME} : {
 };
 
 function isVendor({ resource }) {
-    return resource &&
-        (resource.indexOf('utils') >= 0 || (resource.indexOf('node_modules') >= 0 &&
-            resource.match(/\.js$/)));
+    return resource && resource.indexOf('node_modules') >= 0 && resource.match(/\.js$/);
 }
 
 module.exports = {
@@ -215,20 +213,17 @@ module.exports = {
         }),
 
         new UglifyJSPlugin({
-            parallel: {
-                cache: true,
-                workers: true
-            },
+            parallel: true,
+            sourceMap: false,
             uglifyOptions: {
                 ecma: 8,
+                ie8: false,
                 warnings: false,
-                mangle: {
-                    safari10: true,
-                },
                 output: {
                     beautify: false,
                     keep_quoted_props: true,
-                    shebang: false
+                    shebang: false,
+                    comments: false,
                 },
                 compress: {
                     properties: true,
